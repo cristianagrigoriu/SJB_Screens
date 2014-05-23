@@ -1,18 +1,19 @@
 package com.cg.sjb_screens;
 
+import java.io.IOException;
+
+import org.apache.http.client.ClientProtocolException;
+
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
+import android.telephony.TelephonyManager;
+import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-import android.os.Build;
 
 public class MainActivity extends ActionBarActivity implements android.view.View.OnClickListener {
 
@@ -32,6 +33,15 @@ public class MainActivity extends ActionBarActivity implements android.view.View
 		btnStartTH.setOnClickListener((OnClickListener) this);
 		btnSeeAllTH.setOnClickListener((OnClickListener) this);
 		btnContactFriends.setOnClickListener((OnClickListener) this);
+		
+		TelephonyManager mngr = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+		UserIdentifier newUser = new UserIdentifier(mngr.getDeviceId(), "cris");
+		UserIdentifierService newUserIdService = new UserIdentifierService(newUser);
+		try {
+			Toast.makeText(getApplicationContext(), newUserIdService.addUserId(), Toast.LENGTH_LONG).show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	  @Override
