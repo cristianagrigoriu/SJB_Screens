@@ -4,9 +4,17 @@ import java.io.IOException;
 
 import org.apache.http.client.ClientProtocolException;
 
+import com.cg.sjb_screens.identifierendpoint.IdentifierEndpoint;
+import com.cg.sjb_screens.identifierendpoint.model.Identifier;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.json.gson.GsonFactory;
+
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
+import android.util.Log;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,13 +43,11 @@ public class MainActivity extends ActionBarActivity implements android.view.View
 		btnContactFriends.setOnClickListener((OnClickListener) this);
 		
 		TelephonyManager mngr = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-		UserIdentifier newUser = new UserIdentifier(mngr.getDeviceId(), "cris");
-		UserIdentifierService newUserIdService = new UserIdentifierService(newUser);
-		try {
-			Toast.makeText(getApplicationContext(), newUserIdService.addUserId(), Toast.LENGTH_LONG).show();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		String imei = mngr.getDeviceId();
+		
+		String[] params = {imei, "cris"};
+		new AddIdentifierAsyncTask(MainActivity.this).execute(params);
+		
 	}
 	
 	  @Override
@@ -80,4 +86,43 @@ public class MainActivity extends ActionBarActivity implements android.view.View
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	private class AddIdentifierAsyncTask extends AsyncTask<String, Void, Identifier>{
+		  Context context;
+		  private ProgressDialog pd;
+
+		  public AddIdentifierAsyncTask(Context context) {
+		    this.context = context;
+		  }
+		  
+		  protected void onPreExecute(){ 
+		     super.onPreExecute();
+		          pd = new ProgressDialog(context);
+		          pd.setMessage("Adding the Identifier...");
+		          pd.show();    
+		  }
+
+		  protected Identifier doInBackground(String... params) {
+			  Identifier response = null;
+		    try {
+		    	IdentifierEndpoint.Builder builder = new IdentifierEndpoint.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
+				IdentifierEndpoint service =  builder.build();
+				Identifier Identifier = new Identifier();
+				Identifier.setId(params[0]);
+				Identifier.setName(params[1]);
+				response = service.insertIdentifier(Identifier).execute();
+		    } catch (Exception e) {
+		      Log.d("Could not Add Identifier", e.getMessage(), e);
+		    }
+		    return response;
+		  }
+
+		  protected void onPostExecute(Identifier Identifier) {
+			  pd.dismiss();
+			  
+			  //Display success message to user
+			  Toast.makeText(getBaseContext(), "Identifier added succesfully", Toast.LENGTH_SHORT).show();
+		  }
+		}
+
 }
