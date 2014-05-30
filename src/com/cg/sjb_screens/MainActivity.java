@@ -1,11 +1,7 @@
 package com.cg.sjb_screens;
 
-import java.io.IOException;
-
-import org.apache.http.client.ClientProtocolException;
-
-import com.cg.sjb_screens.identifierendpoint.IdentifierEndpoint;
-import com.cg.sjb_screens.identifierendpoint.model.Identifier;
+import com.appspot.awesometreasurehunt.identifierapi.Identifierapi;
+import com.appspot.awesometreasurehunt.identifierapi.model.Identifier;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.gson.GsonFactory;
 
@@ -105,12 +101,17 @@ public class MainActivity extends ActionBarActivity implements android.view.View
 		  protected Identifier doInBackground(String... params) {
 			  Identifier response = null;
 		    try {
-		    	IdentifierEndpoint.Builder builder = new IdentifierEndpoint.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
-				IdentifierEndpoint service =  builder.build();
-				Identifier Identifier = new Identifier();
-				Identifier.setId(params[0]);
-				Identifier.setName(params[1]);
-				response = service.insertIdentifier(Identifier).execute();
+		    	Identifierapi.Builder builder = new Identifierapi.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
+				Identifierapi service =  builder.build();
+				//Identifier Identifier = new Identifier();
+				//Identifier.setUniqueId(params[0]);
+				//Identifier.setName(params[1]);
+				
+				//Toast.makeText(getBaseContext(), params[0], Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getBaseContext(), params[1], Toast.LENGTH_SHORT).show();
+				
+				response = service.add(params[0], params[1]).execute();
+				
 		    } catch (Exception e) {
 		      Log.d("Could not Add Identifier", e.getMessage(), e);
 		    }
