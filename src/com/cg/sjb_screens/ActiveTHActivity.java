@@ -13,25 +13,36 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class ActiveTHActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks,
-																   GooglePlayServicesClient.OnConnectionFailedListener{
+																   GooglePlayServicesClient.OnConnectionFailedListener,
+																   android.view.View.OnClickListener{
 
 	private GoogleMap googleMap;
 	private LocationClient mLocationClient;
 	MarkerOptions marker;
+	
+	Button nextClue;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_active_th);
 
+		nextClue = (Button)findViewById(R.id.nextClue);		
+		nextClue.setOnClickListener((OnClickListener) this);
+		
 		mLocationClient = new LocationClient(this, this, this);
 		mLocationClient.connect();
 		
@@ -51,6 +62,32 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
         else
         	Toast.makeText(this, "Google Play services is not available.", Toast.LENGTH_LONG).show();
 	}
+	
+	@Override
+	  public void onClick(View v) {
+		  switch (v.getId()) {
+	      	case R.id.nextClue:
+	      		//Toast.makeText(getApplicationContext(), "DA", Toast.LENGTH_SHORT).show();
+	      	// 1. Instantiate an AlertDialog.Builder with its constructor
+	      		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+	      		// 2. Chain together various setter methods to set the dialog characteristics
+	      		builder.setMessage("Loc de intalnire pentru: Caragiale, Goldoni, Shakespeare...")
+	      		       .setTitle("Clue")
+	      		       .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			                @Override
+			                public void onClick(DialogInterface dialog, int id) {
+			                    
+			                }
+	      		       });
+
+	      		// 3. Get the AlertDialog from create()
+	      		AlertDialog dialog = builder.create();
+	      		dialog.show();
+	    	default:
+	    		break;
+	     }
+	  }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
