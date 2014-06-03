@@ -10,6 +10,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -50,13 +51,15 @@ public class MainActivity extends ActionBarActivity implements android.view.View
 	  public void onClick(View v) {
 		  switch (v.getId()) {
 	      	case R.id.startTH:
-	      		Toast.makeText(getApplicationContext(), "Start a new Treasure Hunt", Toast.LENGTH_LONG).show();
+	      		//Toast.makeText(getApplicationContext(), "Start a new Treasure Hunt", Toast.LENGTH_LONG).show();
+	      		Intent activeTH = new Intent(this, ActiveTHActivity.class);
+	      		startActivity(activeTH);
 	    		break;
 	    	case R.id.seeAllTH:
-	    		Toast.makeText(getApplicationContext(), "See all Treasure Hunts", Toast.LENGTH_LONG).show();
+	    		Toast.makeText(getApplicationContext(), "See all Treasure Hunts", Toast.LENGTH_SHORT).show();
 	    		break;
 	    	case R.id.contactFriends:
-	    		Toast.makeText(getApplicationContext(), "Contact Friends", Toast.LENGTH_LONG).show();
+	    		Toast.makeText(getApplicationContext(), "Contact Friends", Toast.LENGTH_SHORT).show();
 	    		break;
 	    	default:
 	    		break;
