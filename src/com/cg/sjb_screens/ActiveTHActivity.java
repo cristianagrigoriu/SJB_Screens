@@ -25,6 +25,7 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 
 	private GoogleMap googleMap;
 	private LocationClient mLocationClient;
+	MarkerOptions marker;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,8 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 
 		mLocationClient = new LocationClient(this, this, this);
 		mLocationClient.connect();
+		
+		marker = null;
 		
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         if (ConnectionResult.SUCCESS == resultCode) {
@@ -136,11 +139,7 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
             /*a button to get you back home*/
             googleMap.getUiSettings().setMyLocationButtonEnabled(true);
             
-            Toast.makeText(getApplicationContext(), "ceva1", Toast.LENGTH_SHORT).show();
-            
             this.setMarkerAtCurrentLocation();
-            
-            Toast.makeText(getApplicationContext(), "ceva2", Toast.LENGTH_SHORT).show();
             
             /*one can see the current location*/
             //googleMap.setMyLocationEnabled(true);
@@ -154,12 +153,8 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 	public void setMarkerAtCurrentLocation() {		
     	Location mCurrentLocation = mLocationClient.getLastLocation();
     	
-    	Toast.makeText(getApplicationContext(), "ceva bun", Toast.LENGTH_SHORT).show();
-    	
     	double latitude = mCurrentLocation.getLatitude();
     	double longitude = mCurrentLocation.getLongitude();
-    	
-    	Toast.makeText(getApplicationContext(), latitude + " " + longitude, Toast.LENGTH_SHORT).show();
     	
     	/*move camera to current position*/
     	CameraPosition cameraPosition = new CameraPosition.Builder().target(
@@ -168,13 +163,15 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
     	googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     	
     	/*create marker*/
-    	MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("You are here!").visible(true);
-    	
-    	/*change to blue colour*/
-    	marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-    	
-    	/*add marker to map*/
-    	googleMap.addMarker(marker);
+    	if (marker == null) {
+	    	marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("You are here!").visible(true);
+	    	
+	    	/*change to blue colour*/
+	    	marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+	    	
+	    	/*add marker to map*/
+	    	googleMap.addMarker(marker);
+    	}
     }
 
 }

@@ -1472,7 +1472,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f070028;
         public static final int action_menu_presenter=0x7f070029;
         public static final int action_mode_close_button=0x7f070036;
-        public static final int action_settings=0x7f070053;
+        public static final int action_settings=0x7f070054;
         public static final int activity_chooser_view_content=0x7f070037;
         public static final int always=0x7f07001e;
         public static final int beginning=0x7f070023;
@@ -1483,8 +1483,8 @@ containing a value of this type.
         public static final int checkbox=0x7f07003f;
         public static final int classic=0x7f070011;
         public static final int collapseActionView=0x7f070020;
-        public static final int contactFriends=0x7f070051;
-        public static final int container=0x7f070052;
+        public static final int contactFriends=0x7f070052;
+        public static final int container=0x7f070053;
         public static final int default_activity_button=0x7f07003a;
         public static final int dialog=0x7f070021;
         public static final int disableHome=0x7f07001b;
@@ -1509,6 +1509,7 @@ containing a value of this type.
         public static final int middle=0x7f070024;
         public static final int monochrome=0x7f070013;
         public static final int never=0x7f07001c;
+        public static final int nextClue=0x7f07004f;
         public static final int none=0x7f070000;
         public static final int normal=0x7f070001;
         public static final int production=0x7f070007;
@@ -1527,14 +1528,14 @@ containing a value of this type.
         public static final int search_plate=0x7f070048;
         public static final int search_src_text=0x7f070049;
         public static final int search_voice_btn=0x7f07004d;
-        public static final int seeAllTH=0x7f070050;
+        public static final int seeAllTH=0x7f070051;
         public static final int selectionDetails=0x7f07000b;
         public static final int shortcut=0x7f070040;
         public static final int showCustom=0x7f07001a;
         public static final int showHome=0x7f070017;
         public static final int showTitle=0x7f070019;
         public static final int split_action_bar=0x7f070030;
-        public static final int startTH=0x7f07004f;
+        public static final int startTH=0x7f070050;
         public static final int strict_sandbox=0x7f070009;
         public static final int submit_area=0x7f07004b;
         public static final int tabMode=0x7f070015;
@@ -1758,6 +1759,7 @@ containing a value of this type.
          available or up-to-date 
          */
         public static final int wallet_buy_button_place_holder=0x7f05001f;
+        public static final int where_is_my_next_clue_=0x7f050035;
     }
     public static final class style {
         /** 

@@ -9,5 +9,6 @@
     <string name="contact_friends">Contact Friends</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_active_th">ActiveTHActivity</string>
+    <string name="where_is_my_next_clue_">Where is my next clue?</string>
 
 </resources>
