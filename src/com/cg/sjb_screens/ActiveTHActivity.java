@@ -1,5 +1,12 @@
 package com.cg.sjb_screens;
 
+import java.util.ArrayList;
+
+import com.appspot.awesometreasurehunt.identifierapi.Identifierapi;
+import com.appspot.awesometreasurehunt.identifierapi.model.Identifier;
+import com.appspot.onyx_shoreline_602.treasurehuntapi.Treasurehuntapi;
+import com.appspot.onyx_shoreline_602.treasurehuntapi.model.Clue;
+import com.appspot.onyx_shoreline_602.treasurehuntapi.model.ClueCollection;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -9,13 +16,19 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CameraPosition.Builder;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.json.gson.GsonFactory;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -67,7 +80,10 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 	  public void onClick(View v) {
 		  switch (v.getId()) {
 	      	case R.id.nextClue:
-	      		//Toast.makeText(getApplicationContext(), "DA", Toast.LENGTH_SHORT).show();
+	      		
+	      		String[] params = {"1"};
+	      		new getCluesAsyncTask(ActiveTHActivity.this).execute(params);
+	      		
 	      	// 1. Instantiate an AlertDialog.Builder with its constructor
 	      		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -83,7 +99,7 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 
 	      		// 3. Get the AlertDialog from create()
 	      		AlertDialog dialog = builder.create();
-	      		dialog.show();
+	      		//dialog.show();
 	    	default:
 	    		break;
 	     }
@@ -210,5 +226,40 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 	    	googleMap.addMarker(marker);
     	}
     }
+	
+	private class getCluesAsyncTask extends AsyncTask<String, Void, ClueCollection>{
+		  Context context;
+
+		  public getCluesAsyncTask(Context context) {
+		    this.context = context;
+		  }
+		  
+		  protected void onPreExecute(){ 
+		     super.onPreExecute(); 
+		  }
+
+		  protected ClueCollection doInBackground(String... params) {
+			  ClueCollection response = null;
+		    try {
+		    	Treasurehuntapi.Builder builder = new Treasurehuntapi.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
+		    	Treasurehuntapi service =  builder.build();
+				response = service.getAllClues(params[0]).execute();
+				
+				String hardInstr = response.getItems().get(0).getInstructions().get(1);
+				
+				Toast.makeText(getBaseContext(), hardInstr, Toast.LENGTH_SHORT).show();
+				
+		    } catch (Exception e) {
+		      Log.d("Could not Add Identifier", e.getMessage(), e);
+		    }
+		    return response;
+		  }
+
+		  protected void onPostExecute(Identifier Identifier) {
+			  
+			  //Display success message to user
+			  Toast.makeText(getBaseContext(), "Got all the clues", Toast.LENGTH_SHORT).show();
+		  }
+		}
 
 }
