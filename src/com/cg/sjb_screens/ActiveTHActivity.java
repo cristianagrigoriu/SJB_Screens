@@ -50,6 +50,8 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 	
 	ClueCollection myClues = new ClueCollection();
 	
+	static int counter = 0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -83,35 +85,63 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 		  switch (v.getId()) {
 	      	case R.id.nextClue:
 	      		
-	      		String[] params = {"1"};
+	      		String[] params = {"2"};
 	      		new getCluesAsyncTask(ActiveTHActivity.this, new OnTaskCompleted() {
 					
 					@Override
 					public void onTaskCompleted(ClueCollection myClues) {
-						String hardInstr = myClues.getItems().get(0).getInstructions().get(0);
-			      		Toast.makeText(getBaseContext(), hardInstr, Toast.LENGTH_SHORT).show();
+						String hardInstr;
+						double clueLatitude = -1, clueLongitude = -1;
 						
+						Location mCurrentLocation = mLocationClient.getLastLocation();
+				    	
+				    	double currentLatitude = mCurrentLocation.getLatitude();
+				    	double currentLongitude = mCurrentLocation.getLongitude();
+				    	
+				    	if (myClues.getItems().size() > counter) {
+					    	clueLatitude = myClues.getItems().get(counter).getCoordinates().get(0);
+					    	clueLongitude = myClues.getItems().get(counter).getCoordinates().get(1);
+				    	}
+						
+				    	float[] distances = new float[1];
+				    	Location.distanceBetween(currentLatitude, currentLongitude,
+				    	                clueLatitude, clueLongitude,
+				    	                distances);
+				    	
+				    	//Toast.makeText(ActiveTHActivity.this, distances[0] + "", Toast.LENGTH_SHORT).show();
+				    	
+				    	AlertDialog.Builder builder = new AlertDialog.Builder(ActiveTHActivity.this);
+				    	
+				    	/*we offer the first clue for free, only after they have to be in the right place*/
+				    	if (distances[0] <= 1000 || (clueLatitude == -1 && clueLongitude == -1) || counter == 0) {
+				    	
+							if (myClues.getItems().size() > counter)
+								hardInstr = myClues.getItems().get(counter).getInstructions().get(0);
+							else
+								hardInstr = "You're reached the end, good for you!";
+							
+							builder.setMessage(hardInstr)
+							       .setTitle("Clue")
+		      		       	       .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				                @Override
+				                public void onClick(DialogInterface dialog, int id) {}
+		      		       	});
+							counter++;
+				    	}
+				    	else {
+				    		builder.setMessage("Sorry, you are not there yet, keep on exploring!")
+				    		.setTitle("Clue")
+		      		       	       .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				                @Override
+				                public void onClick(DialogInterface dialog, int id) {}
+		      		       	});
+				    	}
+				    	
+				    	AlertDialog dialog = builder.create();
+			      		
+						dialog.show();
 					}
 				}).execute(params);
-	      		
-	      		
-	      		
-	      	// 1. Instantiate an AlertDialog.Builder with its constructor
-	      		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-	      		// 2. Chain together various setter methods to set the dialog characteristics
-	      		builder.setMessage("Loc de intalnire pentru: Caragiale, Goldoni, Shakespeare...")
-	      		       .setTitle("Clue")
-	      		       .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			                @Override
-			                public void onClick(DialogInterface dialog, int id) {
-			                    
-			                }
-	      		       });
-
-	      		// 3. Get the AlertDialog from create()
-	      		AlertDialog dialog = builder.create();
-	      		//dialog.show();
 	    	default:
 	    		break;
 	     }
