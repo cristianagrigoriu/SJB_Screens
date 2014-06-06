@@ -48,6 +48,8 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 	
 	Button nextClue;
 	
+	ClueCollection myClues = new ClueCollection();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -82,7 +84,17 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 	      	case R.id.nextClue:
 	      		
 	      		String[] params = {"1"};
-	      		new getCluesAsyncTask(ActiveTHActivity.this).execute(params);
+	      		new getCluesAsyncTask(ActiveTHActivity.this, new OnTaskCompleted() {
+					
+					@Override
+					public void onTaskCompleted(ClueCollection myClues) {
+						String hardInstr = myClues.getItems().get(0).getInstructions().get(0);
+			      		Toast.makeText(getBaseContext(), hardInstr, Toast.LENGTH_SHORT).show();
+						
+					}
+				}).execute(params);
+	      		
+	      		
 	      		
 	      	// 1. Instantiate an AlertDialog.Builder with its constructor
 	      		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -227,11 +239,15 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
     	}
     }
 	
-	private class getCluesAsyncTask extends AsyncTask<String, Void, ClueCollection>{
+	private class getCluesAsyncTask extends AsyncTask<String, ClueCollection, ClueCollection>{
 		  Context context;
+		  String hardInstr;
+		  private OnTaskCompleted listener;
+		  ClueCollection response;
 
-		  public getCluesAsyncTask(Context context) {
+		  public getCluesAsyncTask(Context context, OnTaskCompleted listener) {
 		    this.context = context;
+		    this.listener = listener;
 		  }
 		  
 		  protected void onPreExecute(){ 
@@ -239,27 +255,26 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 		  }
 
 		  protected ClueCollection doInBackground(String... params) {
-			  ClueCollection response = null;
+			  response = null;
 		    try {
 		    	Treasurehuntapi.Builder builder = new Treasurehuntapi.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
 		    	Treasurehuntapi service =  builder.build();
-				response = service.getAllClues(params[0]).execute();
-				
-				String hardInstr = response.getItems().get(0).getInstructions().get(1);
-				
-				Toast.makeText(getBaseContext(), hardInstr, Toast.LENGTH_SHORT).show();
-				
+				response = service.getAllClues(params[0]).execute();	
 		    } catch (Exception e) {
 		      Log.d("Could not Add Identifier", e.getMessage(), e);
 		    }
+		    
 		    return response;
 		  }
 
-		  protected void onPostExecute(Identifier Identifier) {
-			  
-			  //Display success message to user
-			  Toast.makeText(getBaseContext(), "Got all the clues", Toast.LENGTH_SHORT).show();
+		  protected void onPostExecute(ClueCollection clues) {
+			  super.onPostExecute(clues);
+			  listener.onTaskCompleted(clues);
 		  }
 		}
+	
+	public interface OnTaskCompleted{
+	    void onTaskCompleted(ClueCollection clues);
+	}
 
 }
