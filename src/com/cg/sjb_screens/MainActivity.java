@@ -113,7 +113,7 @@ public class MainActivity extends ActionBarActivity implements android.view.View
 				//Toast.makeText(getBaseContext(), params[0], Toast.LENGTH_SHORT).show();
 				//Toast.makeText(getBaseContext(), params[1], Toast.LENGTH_SHORT).show();
 				
-				response = service.add(params[0], params[1]).execute();
+				response = service.addIdentifier(params[0], params[1]).execute();
 				
 		    } catch (Exception e) {
 		      Log.d("Could not Add Identifier", e.getMessage(), e);

@@ -19,7 +19,7 @@
 package com.appspot.awesometreasurehunt.identifierapi.model;
 
 /**
- * Model definition for Identifier.
+ * Model definition for TreasureHunt.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the identifierapi. For a detailed explanation see:
@@ -29,7 +29,19 @@ package com.appspot.awesometreasurehunt.identifierapi.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class Identifier extends com.google.api.client.json.GenericJson {
+public final class TreasureHunt extends com.google.api.client.json.GenericJson {
+
+  /**
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
+  private java.util.List<Clue> allClues;
+
+  static {
+    // hack to force ProGuard to consider Clue used, since otherwise it would be stripped out
+    // see http://code.google.com/p/google-api-java-client/issues/detail?id=528
+    com.google.api.client.util.Data.nullOf(Clue.class);
+  }
 
   /**
    * The value may be {@code null}.
@@ -47,19 +59,28 @@ public final class Identifier extends com.google.api.client.json.GenericJson {
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.util.List<Key> treasureHunts;
-
-  static {
-    // hack to force ProGuard to consider Key used, since otherwise it would be stripped out
-    // see http://code.google.com/p/google-api-java-client/issues/detail?id=528
-    com.google.api.client.util.Data.nullOf(Key.class);
-  }
+  private java.lang.Boolean thcompleted;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.lang.String uniqueId;
+
+  /**
+   * @return value or {@code null} for none
+   */
+  public java.util.List<Clue> getAllClues() {
+    return allClues;
+  }
+
+  /**
+   * @param allClues allClues or {@code null} for none
+   */
+  public TreasureHunt setAllClues(java.util.List<Clue> allClues) {
+    this.allClues = allClues;
+    return this;
+  }
 
   /**
    * @return value or {@code null} for none
@@ -71,7 +92,7 @@ public final class Identifier extends com.google.api.client.json.GenericJson {
   /**
    * @param key key or {@code null} for none
    */
-  public Identifier setKey(Key key) {
+  public TreasureHunt setKey(Key key) {
     this.key = key;
     return this;
   }
@@ -86,7 +107,7 @@ public final class Identifier extends com.google.api.client.json.GenericJson {
   /**
    * @param name name or {@code null} for none
    */
-  public Identifier setName(java.lang.String name) {
+  public TreasureHunt setName(java.lang.String name) {
     this.name = name;
     return this;
   }
@@ -94,15 +115,15 @@ public final class Identifier extends com.google.api.client.json.GenericJson {
   /**
    * @return value or {@code null} for none
    */
-  public java.util.List<Key> getTreasureHunts() {
-    return treasureHunts;
+  public java.lang.Boolean getThcompleted() {
+    return thcompleted;
   }
 
   /**
-   * @param treasureHunts treasureHunts or {@code null} for none
+   * @param thcompleted thcompleted or {@code null} for none
    */
-  public Identifier setTreasureHunts(java.util.List<Key> treasureHunts) {
-    this.treasureHunts = treasureHunts;
+  public TreasureHunt setThcompleted(java.lang.Boolean thcompleted) {
+    this.thcompleted = thcompleted;
     return this;
   }
 
@@ -116,19 +137,19 @@ public final class Identifier extends com.google.api.client.json.GenericJson {
   /**
    * @param uniqueId uniqueId or {@code null} for none
    */
-  public Identifier setUniqueId(java.lang.String uniqueId) {
+  public TreasureHunt setUniqueId(java.lang.String uniqueId) {
     this.uniqueId = uniqueId;
     return this;
   }
 
   @Override
-  public Identifier set(String fieldName, Object value) {
-    return (Identifier) super.set(fieldName, value);
+  public TreasureHunt set(String fieldName, Object value) {
+    return (TreasureHunt) super.set(fieldName, value);
   }
 
   @Override
-  public Identifier clone() {
-    return (Identifier) super.clone();
+  public TreasureHunt clone() {
+    return (TreasureHunt) super.clone();
   }
 
 }
