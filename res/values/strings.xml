@@ -10,5 +10,19 @@
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_active_th">ActiveTHActivity</string>
     <string name="where_is_my_next_clue_">Where is my next clue?</string>
+    
+    <string-array name="nav_drawer_items">
+        <item >View Journey</item>
+        <item >Get Easier Clue</item>
+        <item >See All Clues</item>
+        <item >Progress</item>
+    </string-array>
 
+    <array name="nav_drawer_icons">
+        <item>@drawable/old map</item>
+        <item>@drawable/cashew</item>
+        <item>@drawable/cashew</item>
+        <item>@drawable/cashew</item>
+    </array>
+    
 </resources>

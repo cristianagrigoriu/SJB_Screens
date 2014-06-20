@@ -349,7 +349,7 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 					updateTHLocally();
 					currentTH.setThcompleted(true);
 					String[] params = {getImei(), currentTH.getUniqueId()};
-					new updateCurrentTHAsyncTask(ActiveTHActivity.this).execute(params);
+					new setCurrentTHCompletedAsyncTask(ActiveTHActivity.this).execute(params);
 					try {
 						currentTH = getNextAvailableTH();
 					} catch (InterruptedException | ExecutionException e) {
@@ -369,7 +369,7 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 			if (isCorrectPlace == true && lastClue == false && currentTH != null) {
 				setClueFound(currentClue);
 				String[] params = {getImei(), currentTH.getUniqueId()};
-				new updateCurrentTHAsyncTask(ActiveTHActivity.this).execute(params);
+				new setCurrentTHCompletedAsyncTask(ActiveTHActivity.this).execute(params);
 			}
     	}
     	else {
@@ -386,10 +386,10 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 		dialog.show();
 	}
 	
-	private class updateCurrentTHAsyncTask extends AsyncTask<String, Void, Void>{
+	private class setCurrentTHCompletedAsyncTask extends AsyncTask<String, Void, Void>{
 		private Context context;
 		
-		public updateCurrentTHAsyncTask(Context context) {
+		public setCurrentTHCompletedAsyncTask(Context context) {
 			this.context = context;
 		}
 
@@ -399,7 +399,8 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 		    	Identifierapi.Builder builder = new Identifierapi.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
 				Identifierapi service =  builder.build();
 				
-				service.updateTHForUser(params[0], params[1]).execute();
+				//setTHCompletedForUser
+				service.setTHCompletedForUser(params[0], params[1]).execute();
 				
 		    } catch (Exception e) {
 		      Log.d("Could not Add Identifier", e.getMessage(), e);
