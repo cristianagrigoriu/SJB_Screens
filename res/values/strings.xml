@@ -19,7 +19,7 @@
     </string-array>
 
     <array name="nav_drawer_icons">
-        <item>@drawable/old map</item>
+        <item>@drawable/old_map</item>
         <item>@drawable/cashew</item>
         <item>@drawable/cashew</item>
         <item>@drawable/cashew</item>
