@@ -10,12 +10,12 @@
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_active_th">ActiveTHActivity</string>
     <string name="where_is_my_next_clue_">Where is my next clue?</string>
-    
+
     <string-array name="nav_drawer_items">
-        <item >View Journey</item>
-        <item >Get Easier Clue</item>
-        <item >See All Clues</item>
-        <item >Progress</item>
+        <item>View Journey</item>
+        <item>Get Easier Clue</item>
+        <item>See All Clues</item>
+        <item>Progress</item>
     </string-array>
 
     <array name="nav_drawer_icons">
@@ -24,12 +24,13 @@
         <item>@drawable/ic_launcher</item>
         <item>@drawable/ic_launcher</item>
     </array>
-    
+
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
     <string name="title_activity_find_road">FindRoadActivity</string>
     <string name="title_activity_rate_road">RateRoadActivity</string>
     <string name="title_activity_your_rated_roads">YourRatedRoadsActivity</string>
     <string name="title_activity_explanations">ExplanationsActivity</string>
-    
+    <string name="title_activity_view_journey">ViewJourneyActivity</string>
+
 </resources>

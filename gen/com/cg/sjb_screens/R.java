@@ -1615,16 +1615,19 @@ containing a value of this type.
         public static final int activity_active_th=0x7f030018;
         public static final int activity_main=0x7f030019;
         public static final int activity_register=0x7f03001a;
-        public static final int drawer_list_item=0x7f03001b;
-        public static final int fragment_active_th=0x7f03001c;
-        public static final int fragment_main=0x7f03001d;
-        public static final int fragment_register=0x7f03001e;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001f;
+        public static final int activity_view_journey=0x7f03001b;
+        public static final int drawer_list_item=0x7f03001c;
+        public static final int fragment_active_th=0x7f03001d;
+        public static final int fragment_main=0x7f03001e;
+        public static final int fragment_register=0x7f03001f;
+        public static final int fragment_view_journey=0x7f030020;
+        public static final int support_simple_spinner_dropdown_item=0x7f030021;
     }
     public static final class menu {
         public static final int active_th=0x7f0d0000;
         public static final int main=0x7f0d0001;
         public static final int register=0x7f0d0002;
+        public static final int view_journey=0x7f0d0003;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1776,6 +1779,7 @@ containing a value of this type.
         public static final int title_activity_find_road=0x7f050037;
         public static final int title_activity_rate_road=0x7f050038;
         public static final int title_activity_register=0x7f050033;
+        public static final int title_activity_view_journey=0x7f05003b;
         public static final int title_activity_your_rated_roads=0x7f050039;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 

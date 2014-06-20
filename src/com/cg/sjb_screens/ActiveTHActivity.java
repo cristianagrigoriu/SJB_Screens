@@ -25,8 +25,10 @@ import com.google.api.client.json.gson.GsonFactory;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.location.Location;
@@ -40,6 +42,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -191,7 +194,50 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        
+        mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 	}
+	
+	/**
+     * Slide menu item click listener
+     * */
+    private class SlideMenuClickListener implements
+            ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position,
+                long id) {
+            // display view for selected nav drawer item
+            displayView(position);
+        }
+    }
+ 
+     /**
+     * Diplaying fragment view for selected nav drawer list item
+     * */
+    private void displayView(int position) {
+        // update the main content by replacing fragments
+        Intent intent;
+        switch (position) {
+        case 0:
+        	intent = new Intent(this, ViewJourneyActivity.class);
+        	startActivity(intent);
+            break;
+        case 1:
+        	/*intent = new Intent(this, FindRoadActivity.class);
+        	startActivity(intent);*/
+            break;
+        case 2:
+        	/*intent = new Intent(this, FindRoadActivity.class);
+        	startActivity(intent);*/
+            break;
+        case 3:
+        	/*intent = new Intent(this, FindRoadActivity.class);
+        	startActivity(intent);*/
+            break;
+        default:
+            break;
+        }
+    }
 	
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
