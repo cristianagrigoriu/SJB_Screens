@@ -1457,17 +1457,19 @@ containing a value of this type.
         public static final int common_signin_btn_text_pressed_dark=0x7f02006e;
         public static final int common_signin_btn_text_pressed_light=0x7f02006f;
         public static final int counter_bg=0x7f020070;
-        public static final int ic_launcher=0x7f020071;
-        public static final int ic_plusone_medium_off_client=0x7f020072;
-        public static final int ic_plusone_small_off_client=0x7f020073;
-        public static final int ic_plusone_standard_off_client=0x7f020074;
-        public static final int ic_plusone_tall_off_client=0x7f020075;
-        public static final int list_item_bg_normal=0x7f020076;
-        public static final int list_item_bg_pressed=0x7f020077;
-        public static final int list_selector=0x7f020078;
-        public static final int old_map=0x7f020079;
-        public static final int powered_by_google_dark=0x7f02007a;
-        public static final int powered_by_google_light=0x7f02007b;
+        public static final int ic_drawer=0x7f020071;
+        public static final int ic_launcher=0x7f020072;
+        public static final int ic_map=0x7f020073;
+        public static final int ic_plusone_medium_off_client=0x7f020074;
+        public static final int ic_plusone_small_off_client=0x7f020075;
+        public static final int ic_plusone_standard_off_client=0x7f020076;
+        public static final int ic_plusone_tall_off_client=0x7f020077;
+        public static final int list_item_bg_normal=0x7f020078;
+        public static final int list_item_bg_pressed=0x7f020079;
+        public static final int list_selector=0x7f02007a;
+        public static final int old_map=0x7f02007b;
+        public static final int powered_by_google_dark=0x7f02007c;
+        public static final int powered_by_google_light=0x7f02007d;
     }
     public static final class id {
         public static final int action_bar=0x7f07002e;
@@ -1763,11 +1765,18 @@ containing a value of this type.
          */
         public static final int common_signin_button_text_long=0x7f05001e;
         public static final int contact_friends=0x7f050032;
+        /**  Content Description 
+         */
+        public static final int desc_list_item_icon=0x7f050036;
         public static final int hello_world=0x7f05002e;
         public static final int see_all_treasure_hunts=0x7f050031;
         public static final int start_treasure_hunt=0x7f050030;
         public static final int title_activity_active_th=0x7f050034;
+        public static final int title_activity_explanations=0x7f05003a;
+        public static final int title_activity_find_road=0x7f050037;
+        public static final int title_activity_rate_road=0x7f050038;
         public static final int title_activity_register=0x7f050033;
+        public static final int title_activity_your_rated_roads=0x7f050039;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */

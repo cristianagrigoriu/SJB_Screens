@@ -46,7 +46,7 @@
         android:divider="@color/common_action_bar_splitter"
         android:dividerHeight="2dp"       
         android:listSelector="@drawable/common_signin_btn_icon_focus_dark"
-        android:background="@drawable/abc_ab_bottom_solid_dark_holo"/>
+        android:background="@drawable/list_selector"/>
     
 </android.support.v4.widget.DrawerLayout>
     

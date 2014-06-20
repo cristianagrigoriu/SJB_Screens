@@ -19,10 +19,17 @@
     </string-array>
 
     <array name="nav_drawer_icons">
-        <item>@drawable/old_map</item>
-        <item>@drawable/cashew</item>
-        <item>@drawable/cashew</item>
-        <item>@drawable/cashew</item>
+        <item>@drawable/ic_map</item>
+        <item>@drawable/ic_launcher</item>
+        <item>@drawable/ic_launcher</item>
+        <item>@drawable/ic_launcher</item>
     </array>
+    
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
+    <string name="title_activity_find_road">FindRoadActivity</string>
+    <string name="title_activity_rate_road">RateRoadActivity</string>
+    <string name="title_activity_your_rated_roads">YourRatedRoadsActivity</string>
+    <string name="title_activity_explanations">ExplanationsActivity</string>
     
 </resources>
