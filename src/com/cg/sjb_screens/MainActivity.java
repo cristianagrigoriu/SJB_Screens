@@ -22,22 +22,16 @@ import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements android.view.View.OnClickListener {
 
-	Button btnStartTH;
-	Button btnSeeAllTH;
-	Button btnContactFriends;
+	Button btnPlay;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		btnStartTH = (Button)findViewById(R.id.startTH);		
-		btnSeeAllTH = (Button)findViewById(R.id.seeAllTH);
-		btnContactFriends = (Button)findViewById(R.id.contactFriends);
+		btnPlay = (Button)findViewById(R.id.play);		
 		
-		btnStartTH.setOnClickListener((OnClickListener) this);
-		btnSeeAllTH.setOnClickListener((OnClickListener) this);
-		btnContactFriends.setOnClickListener((OnClickListener) this);
+		btnPlay.setOnClickListener((OnClickListener) this);
 		
 		TelephonyManager mngr = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 		String imei = mngr.getDeviceId();
@@ -50,16 +44,10 @@ public class MainActivity extends ActionBarActivity implements android.view.View
 	  @Override
 	  public void onClick(View v) {
 		  switch (v.getId()) {
-	      	case R.id.startTH:
+	      	case R.id.play:
 	      		//Toast.makeText(getApplicationContext(), "Start a new Treasure Hunt", Toast.LENGTH_LONG).show();
-	      		Intent activeTH = new Intent(this, ActiveTHActivity.class);
-	      		startActivity(activeTH);
-	    		break;
-	    	case R.id.seeAllTH:
-	    		Toast.makeText(getApplicationContext(), "See all Treasure Hunts", Toast.LENGTH_SHORT).show();
-	    		break;
-	    	case R.id.contactFriends:
-	    		Toast.makeText(getApplicationContext(), "Contact Friends", Toast.LENGTH_SHORT).show();
+	      		Intent playActivity = new Intent(this, PlayActivity.class);
+	      		startActivity(playActivity);
 	    		break;
 	    	default:
 	    		break;

@@ -1483,7 +1483,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f070028;
         public static final int action_menu_presenter=0x7f070029;
         public static final int action_mode_close_button=0x7f070036;
-        public static final int action_settings=0x7f070057;
+        public static final int action_settings=0x7f070058;
         public static final int activity_chooser_view_content=0x7f070037;
         public static final int always=0x7f07001e;
         public static final int beginning=0x7f070023;
@@ -1494,9 +1494,9 @@ containing a value of this type.
         public static final int checkbox=0x7f07003f;
         public static final int classic=0x7f070011;
         public static final int collapseActionView=0x7f070020;
-        public static final int contactFriends=0x7f070054;
-        public static final int container=0x7f070055;
-        public static final int counter=0x7f070056;
+        public static final int contactFriends=0x7f070055;
+        public static final int container=0x7f070056;
+        public static final int counter=0x7f070057;
         public static final int default_activity_button=0x7f07003a;
         public static final int dialog=0x7f070021;
         public static final int disableHome=0x7f07001b;
@@ -1526,6 +1526,7 @@ containing a value of this type.
         public static final int nextClue=0x7f070050;
         public static final int none=0x7f070000;
         public static final int normal=0x7f070001;
+        public static final int play=0x7f070052;
         public static final int production=0x7f070007;
         public static final int progress_circular=0x7f07002a;
         public static final int progress_horizontal=0x7f07002b;
@@ -1542,14 +1543,14 @@ containing a value of this type.
         public static final int search_plate=0x7f070048;
         public static final int search_src_text=0x7f070049;
         public static final int search_voice_btn=0x7f07004d;
-        public static final int seeAllTH=0x7f070053;
+        public static final int seeAllTH=0x7f070054;
         public static final int selectionDetails=0x7f07000b;
         public static final int shortcut=0x7f070040;
         public static final int showCustom=0x7f07001a;
         public static final int showHome=0x7f070017;
         public static final int showTitle=0x7f070019;
         public static final int split_action_bar=0x7f070030;
-        public static final int startTH=0x7f070052;
+        public static final int startTH=0x7f070053;
         public static final int strict_sandbox=0x7f070009;
         public static final int submit_area=0x7f07004b;
         public static final int tabMode=0x7f070015;
@@ -1614,20 +1615,23 @@ containing a value of this type.
         public static final int abc_simple_decor=0x7f030017;
         public static final int activity_active_th=0x7f030018;
         public static final int activity_main=0x7f030019;
-        public static final int activity_register=0x7f03001a;
-        public static final int activity_view_journey=0x7f03001b;
-        public static final int drawer_list_item=0x7f03001c;
-        public static final int fragment_active_th=0x7f03001d;
-        public static final int fragment_main=0x7f03001e;
-        public static final int fragment_register=0x7f03001f;
-        public static final int fragment_view_journey=0x7f030020;
-        public static final int support_simple_spinner_dropdown_item=0x7f030021;
+        public static final int activity_play=0x7f03001a;
+        public static final int activity_register=0x7f03001b;
+        public static final int activity_view_journey=0x7f03001c;
+        public static final int drawer_list_item=0x7f03001d;
+        public static final int fragment_active_th=0x7f03001e;
+        public static final int fragment_main=0x7f03001f;
+        public static final int fragment_play=0x7f030020;
+        public static final int fragment_register=0x7f030021;
+        public static final int fragment_view_journey=0x7f030022;
+        public static final int support_simple_spinner_dropdown_item=0x7f030023;
     }
     public static final class menu {
         public static final int active_th=0x7f0d0000;
         public static final int main=0x7f0d0001;
-        public static final int register=0x7f0d0002;
-        public static final int view_journey=0x7f0d0003;
+        public static final int play=0x7f0d0002;
+        public static final int register=0x7f0d0003;
+        public static final int view_journey=0x7f0d0004;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1773,10 +1777,12 @@ containing a value of this type.
         public static final int desc_list_item_icon=0x7f050036;
         public static final int hello_world=0x7f05002e;
         public static final int see_all_treasure_hunts=0x7f050031;
+        public static final int start_the_adventure=0x7f05003d;
         public static final int start_treasure_hunt=0x7f050030;
         public static final int title_activity_active_th=0x7f050034;
         public static final int title_activity_explanations=0x7f05003a;
         public static final int title_activity_find_road=0x7f050037;
+        public static final int title_activity_play=0x7f05003c;
         public static final int title_activity_rate_road=0x7f050038;
         public static final int title_activity_register=0x7f050033;
         public static final int title_activity_view_journey=0x7f05003b;
