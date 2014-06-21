@@ -14,7 +14,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/start_treasure_hunt" />
+        android:text="@string/start_treasure_hunt"
+        android:drawableLeft="@drawable/ic_launcher" 
+        android:drawablePadding="10dp"
+        android:background="@drawable/round_corner"/>
     
     <Button
         android:id="@+id/seeAllTH"
@@ -22,7 +25,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/startTH"
         android:layout_centerInParent="true"
-        android:text="@string/see_all_treasure_hunts" />
+        android:text="@string/see_all_treasure_hunts"
+        android:drawableLeft="@drawable/ic_launcher" 
+        android:drawablePadding="10dp"
+        android:background="@drawable/round_corner"/>
     
     <Button
         android:id="@+id/contactFriends"
@@ -30,6 +36,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/seeAllTH"
         android:layout_centerInParent="true"
-        android:text="@string/contact_friends" />
+        android:text="@string/contact_friends"
+        android:drawableLeft="@drawable/ic_launcher" 
+        android:drawablePadding="10dp"
+        android:background="@drawable/round_corner"/>
 
 </RelativeLayout>
