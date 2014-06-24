@@ -15,11 +15,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class SeeAllTHActivity extends ActionBarActivity{
@@ -79,8 +82,35 @@ public class SeeAllTHActivity extends ActionBarActivity{
         // enabling action bar app icon and behaving it as toggle button
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
+        
+        mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 	}
 
+	/**
+     * Slide menu item click listener
+     * */
+    private class SlideMenuClickListener implements
+            ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position,
+                long id) {
+            // display view for selected nav drawer item
+            displayView(position);
+        }
+    }
+ 
+     /**
+     * Diplaying fragment view for selected nav drawer list item
+     * */
+    private void displayView(int position) {
+        String thId = myTHs.getItems().get(position).getUniqueId();
+    	
+    	Intent intent;
+        intent = new Intent(this, ActiveTHActivity.class);
+        intent.putExtra("thID", thId);
+        startActivity(intent);
+    }
+	
 	private TreasureHunt getTH(String thId) {
 		TreasureHunt result = new TreasureHunt();
 		try {

@@ -124,15 +124,34 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 			e.printStackTrace();
 		}
   	
-  		try {
-			currentTH = getNextAvailableTH();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+  		
+  		String thId = getIntent().getExtras().getString("thID");
+  		String[] params2 = {thId};
+  		
+  		if (thId != null) {
+	  		try {
+				this.currentTH = new getCurrentTHAsyncTask(ActiveTHActivity.this, new OnTaskCompletedTH() {
+					
+					@Override
+					public TreasureHunt onTaskCompleted(TreasureHunt myTreasureHunts) {
+						return myTreasureHunts;
+					}
+				}).execute(params2).get();
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
+  		}
+  		else {
+	  		try {
+				currentTH = getNextAvailableTH();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+  		}
   		
   		setUpSlidingMenu();
   		if (savedInstanceState == null) {
