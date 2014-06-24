@@ -42,6 +42,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.CorrectionInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -77,6 +78,9 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
  
     private ArrayList<NavDrawerItem> navDrawerItems;
     private NavDrawerListAdapter adapter;
+    
+    boolean isClueFound = false;
+    int clueNo;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -119,8 +123,7 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}
-  		
-  		//Log.d("CORECT", " am " + this.myTreasureHunts.size() + " th");
+  	
   		try {
 			currentTH = getNextAvailableTH();
 		} catch (InterruptedException e) {
@@ -136,6 +139,8 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
             // on first time display view for first nav item
             //displayView(0);
         }
+  		
+  		clueNo = -1;
 	}
 		
 	private void setUpSlidingMenu() {
@@ -268,7 +273,7 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getActionBar().setTitle(mTitle);
+        getActionBar().setTitle("Explore!");
     }
  
     /**
@@ -454,19 +459,22 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 	}
 
 	private TreasureHunt getNextAvailableTH() throws InterruptedException, ExecutionException {
-		for (TreasureHunt t : this.myTreasureHunts.getItems()) {
-			if (!t.getThcompleted()) {
-				String[] params = {t.getUniqueId()};
-				return new getCurrentTHAsyncTask(ActiveTHActivity.this, new OnTaskCompletedTH() {
-					
-					@Override
-					public TreasureHunt onTaskCompleted(TreasureHunt myTreasureHunts) {
-						return myTreasureHunts;
-					}
-				}).execute(params).get();
-				//return t;
+		if (this.myTreasureHunts.getItems() != null)
+			Log.d("marimea listei de treasure hunt-uri", this.myTreasureHunts.getItems().size() + "");
+		if (this.myTreasureHunts.getItems() != null)
+			for (TreasureHunt t : this.myTreasureHunts.getItems()) {
+				if (!t.getThcompleted()) {
+					String[] params = {t.getUniqueId()};
+					return new getCurrentTHAsyncTask(ActiveTHActivity.this, new OnTaskCompletedTH() {
+						
+						@Override
+						public TreasureHunt onTaskCompleted(TreasureHunt myTreasureHunts) {
+							return myTreasureHunts;
+						}
+					}).execute(params).get();
+					//return t;
+				}
 			}
-		}
 		return null;
 	}
 	
@@ -504,6 +512,8 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 		
     	/*we offer the first clue for free, only after they have to be in the right place*/
     	if (isCorrectPlace == true || isFirstClue == true) {
+    		if (isCorrectPlace == true)
+    			isClueFound = true;
     		/*0 means easy*/
 			if (instruction == null) {
 				instruction = "No clues available!";
@@ -511,12 +521,13 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 			else
 				if (instruction.equals("")) {
 					instruction = "You're reached the end, good for you!";
-					//currentTH.setThcompleted(true);
 					lastClue = true;
 					updateTHLocally();
 					currentTH.setThcompleted(true);
 					String[] params = {getImei(), currentTH.getUniqueId()};
+					
 					new setCurrentTHCompletedAsyncTask(ActiveTHActivity.this).execute(params);
+					
 					try {
 						currentTH = getNextAvailableTH();
 					} catch (InterruptedException | ExecutionException e) {
@@ -533,10 +544,10 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
                 public void onClick(DialogInterface dialog, int id) {}
 		       	});
 			
-			if (isCorrectPlace == true && lastClue == false && currentTH != null) {
+			if (isCorrectPlace == true && currentTH != null) {
 				setClueFound(currentClue);
-				String[] params = {getImei(), currentTH.getUniqueId()};
-				new setCurrentTHCompletedAsyncTask(ActiveTHActivity.this).execute(params);
+				String[] params = {getImei(), currentTH.getUniqueId(), Integer.toString(clueNo)};
+				new setClueCompletedForTHAsyncTask(ActiveTHActivity.this).execute(params);
 			}
     	}
     	else {
@@ -551,6 +562,8 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
     	AlertDialog dialog = builder.create();
   		
 		dialog.show();
+		
+		isClueFound = false;
 	}
 	
 	private class setCurrentTHCompletedAsyncTask extends AsyncTask<String, Void, Void>{
@@ -561,13 +574,32 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 		}
 
 		protected Void doInBackground(String... params) {
-			TreasureHunt response = null;
 		    try {
 		    	Identifierapi.Builder builder = new Identifierapi.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
 				Identifierapi service =  builder.build();
 				
-				//setTHCompletedForUser
 				service.setTHCompletedForUser(params[0], params[1]).execute();
+				
+		    } catch (Exception e) {
+		      Log.d("Could not Add Identifier", e.getMessage(), e);
+		    }
+		    return null;
+		  }
+	}
+	
+	private class setClueCompletedForTHAsyncTask extends AsyncTask<String, Void, Void>{
+		private Context context;
+		
+		public setClueCompletedForTHAsyncTask(Context context) {
+			this.context = context;
+		}
+
+		protected Void doInBackground(String... params) {
+		    try {
+		    	Identifierapi.Builder builder = new Identifierapi.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
+				Identifierapi service =  builder.build();
+				
+				service.setClueCompletedForTHForUser(params[0], params[1], Integer.parseInt(params[2])).execute();
 				
 		    } catch (Exception e) {
 		      Log.d("Could not Add Identifier", e.getMessage(), e);
@@ -592,13 +624,15 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 		protected TreasureHunt doInBackground(String... params) {
 			TreasureHunt response = null;
 		    try {
-		    	Identifierapi.Builder builder = new Identifierapi.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
+		    	Identifierapi.Builder builder = new Identifierapi.Builder(AndroidHttp.newCompatibleTransport(), 
+		    															  new GsonFactory(), 
+		    															  null);
 				Identifierapi service =  builder.build();
 				
 				response = service.getTreasureHuntByID(params[0]).execute();
 				
 		    } catch (Exception e) {
-		      Log.d("Could not Add Identifier", e.getMessage(), e);
+		      Log.d("Could not get Treasure Hunt", e.getMessage(), e);
 		    }
 		    return response;
 		  }
@@ -622,11 +656,16 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 	}
 	
 	private Clue getNextClueinTH() {
+		int localClueNumber = -1;
 		if (currentTH != null)
 			if (!currentTH.getAllClues().isEmpty())
-				for (Clue c : currentTH.getAllClues())
-					if (!c.getIsFoundClue())
+				for (Clue c : currentTH.getAllClues()) {
+					localClueNumber++;
+					if (!c.getIsFoundClue()) {
+						clueNo = localClueNumber;
 						return c;
+					}
+				}
 		return null;
 	}
 	
@@ -658,4 +697,11 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 						if (t.getUniqueId().equals(currentTH.getUniqueId()))
 							t.setThcompleted(true);
 	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+	}
+	
+	
 }

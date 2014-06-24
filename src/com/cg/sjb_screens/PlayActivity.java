@@ -26,6 +26,7 @@ public class PlayActivity extends ActionBarActivity implements android.view.View
 	Button btnSeeAllTH;
 	Button btnContactFriends;
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,6 +41,7 @@ public class PlayActivity extends ActionBarActivity implements android.view.View
 		btnContactFriends.setOnClickListener((OnClickListener) this);	
 	}
 	
+	
 	  @Override
 	  public void onClick(View v) {
 		  switch (v.getId()) {
@@ -49,7 +51,8 @@ public class PlayActivity extends ActionBarActivity implements android.view.View
 	      		startActivity(activeTH);
 	    		break;
 	    	case R.id.seeAllTH:
-	    		Toast.makeText(getApplicationContext(), "See all Treasure Hunts", Toast.LENGTH_SHORT).show();
+	    		Intent allTHsActivity = new Intent(this, SeeAllTHActivity.class);
+	      		startActivity(allTHsActivity);
 	    		break;
 	    	case R.id.contactFriends:
 	    		Toast.makeText(getApplicationContext(), "Contact Friends", Toast.LENGTH_SHORT).show();
