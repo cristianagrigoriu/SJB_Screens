@@ -53,15 +53,16 @@ public class SeeAllTHListAdapter extends BaseAdapter {
           
         imgIcon.setImageResource(thItems.get(position).getIcon());        
         txtTitle.setText(thItems.get(position).getTitle());
+        txtCount.setText(thItems.get(position).getDetails());
          
         /*displaying count*/
         /*check whether it set visible or not*/
-        if(thItems.get(position).getCounterVisibility()){
-            txtCount.setText(thItems.get(position).getCount());
-        }else{
+        //if(thItems.get(position).getCounterVisibility()){
+          //  txtCount.setText(thItems.get(position).getCount());
+        //}else{
             /*hide the counter view*/
-            txtCount.setVisibility(View.GONE);
-        }
+          //  txtCount.setVisibility(View.GONE);
+        //}
          
         return convertView;
     }
