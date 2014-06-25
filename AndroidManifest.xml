@@ -64,6 +64,10 @@
             android:name="com.cg.sjb_screens.SeeAllTHActivity"
             android:label="@string/title_activity_see_all_th" >
         </activity>
+        <activity
+            android:name="com.cg.sjb_screens.SeeAllCluesActivity"
+            android:label="@string/title_activity_see_all_clues" >
+        </activity>
     </application>
 
 </manifest>

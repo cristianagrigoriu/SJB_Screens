@@ -81,6 +81,8 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
     
     boolean isClueFound = false;
     int clueNo;
+    /*by default, the hardest clue is shown*/
+    int clueDifficulty = 1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +164,11 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
         }
   		
   		clueNo = -1;
+  		
+  		if (currentTH != null)
+  			setTitle(currentTH.getName());
+  		else
+  			setTitle("No Current Treasure Hunt");
 	}
 		
 	private void setUpSlidingMenu() {
@@ -249,12 +256,13 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
         	startActivity(intent);
             break;
         case 1:
-        	/*intent = new Intent(this, FindRoadActivity.class);
-        	startActivity(intent);*/
+        	clueDifficulty = 0;
+        	showClue(clueDifficulty);
             break;
         case 2:
-        	/*intent = new Intent(this, FindRoadActivity.class);
-        	startActivity(intent);*/
+        	intent = new Intent(this, SeeAllCluesActivity.class);
+            intent.putExtra("thID", currentTH.getUniqueId());
+            startActivity(intent);
             break;
         case 3:
         	/*intent = new Intent(this, FindRoadActivity.class);
@@ -294,7 +302,7 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getActionBar().setTitle("Explore!");
+        //getActionBar().setTitle("Explore!");
     }
  
     /**
@@ -320,7 +328,7 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 	  public void onClick(View v) {
 		  switch (v.getId()) {
 	      	case R.id.nextClue:
-	      		showClue();
+	      		showClue(clueDifficulty);
 	    	default:
 	    		break;
 	     }
@@ -353,6 +361,20 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
         /*connect the client*/
         mLocationClient.connect();
         initializeMap();
+        
+        if (currentTH != null)
+  			setTitle(currentTH.getName());
+  		else
+  			setTitle("No Current Treasure Hunt");
+    }
+	
+	@Override
+    protected void onPause() {
+        super.onPause();
+        if (currentTH != null)
+  			setTitle(currentTH.getName());
+  		else
+  			setTitle("No Current Treasure Hunt");
     }
 	
 	@Override
@@ -360,6 +382,11 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
         super.onResume();
         mLocationClient.connect();
         initializeMap();
+        
+        if (currentTH != null)
+  			setTitle(currentTH.getName());
+  		else
+  			setTitle("No Current Treasure Hunt");
     }
 	
 	@Override
@@ -499,7 +526,7 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 		return null;
 	}
 	
-	private void showClue() {
+	private void showClue(int difficulty) {
 		double clueLatitude = -1, clueLongitude = -1;
 		float[] distances = new float[1];
 		Location mCurrentLocation = mLocationClient.getLastLocation();
@@ -523,12 +550,12 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
   		if (distances[0] <= 1000 || (clueLatitude == -1 && clueLongitude == -1))
   			isCorrectLocation = true;
   		
-  		this.buildAlertBox(isCorrectLocation, isCurrentClueFirstClue(currentClue), currentClue);
+  		this.buildAlertBox(isCorrectLocation, isCurrentClueFirstClue(currentClue), currentClue, difficulty);
 	}
 	
-	private void buildAlertBox(boolean isCorrectPlace, boolean isFirstClue, Clue currentClue) {
+	private void buildAlertBox(boolean isCorrectPlace, boolean isFirstClue, Clue currentClue, int difficulty) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(ActiveTHActivity.this);
-		String instruction = getNextInstructioninTH(0);
+		String instruction = getNextInstructioninTH(difficulty);
 		boolean lastClue = false;
 		
     	/*we offer the first clue for free, only after they have to be in the right place*/

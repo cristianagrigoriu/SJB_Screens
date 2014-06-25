@@ -35,5 +35,6 @@
     <string name="title_activity_play">PlayActivity</string>
     <string name="start_the_adventure">Start the adventure</string>
     <string name="title_activity_see_all_th">SeeAllTHActivity</string>
+    <string name="title_activity_see_all_clues">SeeAllCluesActivity</string>
 
 </resources>

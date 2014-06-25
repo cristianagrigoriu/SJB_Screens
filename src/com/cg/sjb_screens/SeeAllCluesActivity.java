@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import com.appspot.awesometreasurehunt.identifierapi.Identifierapi;
+import com.appspot.awesometreasurehunt.identifierapi.model.Clue;
 import com.appspot.awesometreasurehunt.identifierapi.model.TreasureHunt;
 import com.appspot.awesometreasurehunt.identifierapi.model.TreasureHuntCollection;
 import com.cg.sjb_screens.slidingmenu.adapter.SeeAllTHListAdapter;
@@ -24,9 +25,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
-public class SeeAllTHActivity extends ActionBarActivity{
+public class SeeAllCluesActivity extends ActionBarActivity{
 	TreasureHuntCollection myTHs;
+	
+	TreasureHunt currentTH;
+	
+	int clueNo;
 	
 	/*members for the sliding menu*/
     private ListView mDrawerList;
@@ -38,37 +44,25 @@ public class SeeAllTHActivity extends ActionBarActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_see_all_th);
+		setContentView(R.layout.activity_see_all_clues);
  
-        mDrawerList = (ListView) findViewById(R.id.thList);
+        mDrawerList = (ListView) findViewById(R.id.clueList);
  
         navDrawerItems = new ArrayList<SeeAllTHItem>();
- 
-        //aici populez lista
-        String[] params = {getImei()};
         
-        try {
-			myTHs = new getTHForIdAsyncTask(SeeAllTHActivity.this, new OnTaskCompletedTH() {
-				
-				@Override
-				public TreasureHuntCollection onTaskCompleted(TreasureHuntCollection myTreasureHunts) {
-					return myTreasureHunts;
-				}
-			}).execute(params).get();
-		} catch (InterruptedException | ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+        String thId = getIntent().getExtras().getString("thID");
+        
+        currentTH = getTH(thId);
+        
+        if (currentTH.getAllClues() != null) {
+	        for (Clue c : currentTH.getAllClues()) {
+		        String instr1 = c.getInstructions().get(0);
+		        String instr2 = c.getInstructions().get(1);
+		        navDrawerItems.add(new SeeAllTHItem(instr1, instr2, R.drawable.ic_map)); 
+	        }
 		}
-        
-        for (int i=0; i<myTHs.getItems().size(); i++) {
-        	TreasureHunt t = getTH(myTHs.getItems().get(i).getUniqueId());
-        	String details = "No Clues: ";
-        	if (t.getAllClues() == null)
-        		details += "0";
-        	else
-        		details += t.getAllClues().size();
-        	navDrawerItems.add(new SeeAllTHItem(t.getName(), details, R.drawable.ic_map));
-        }
+        else
+        	Toast.makeText(this, "There are no clues in this Treasure Hunt", Toast.LENGTH_SHORT).show();
  
         // setting the nav drawer list adapter
         adapter = new SeeAllTHListAdapter(getApplicationContext(),
@@ -83,38 +77,14 @@ public class SeeAllTHActivity extends ActionBarActivity{
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
         
-        mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
+        setTitle(currentTH.getName());
 	}
-
-	/**
-     * Slide menu item click listener
-     * */
-    private class SlideMenuClickListener implements
-            ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position,
-                long id) {
-            // display view for selected nav drawer item
-            displayView(position);
-        }
-    }
- 
-     /**
-     * Diplaying fragment view for selected nav drawer list item
-     * */
-    private void displayView(int position) {
-        String thId = myTHs.getItems().get(position).getUniqueId();
-    	
-    	Intent intent = new Intent(this, ActiveTHActivity.class);
-        intent.putExtra("thID", thId);
-        startActivity(intent);
-    }
 	
 	private TreasureHunt getTH(String thId) {
 		TreasureHunt result = new TreasureHunt();
 		try {
 			String[] params = {thId};
-			result =  new getTHAsyncTask(SeeAllTHActivity.this, new OnTaskCompleted() {
+			result =  new getTHAsyncTask(SeeAllCluesActivity.this, new OnTaskCompleted() {
 				
 				@Override
 				public TreasureHunt onTaskCompleted(TreasureHunt myTreasureHunts) {
@@ -149,43 +119,6 @@ public class SeeAllTHActivity extends ActionBarActivity{
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-	
-	private class getTHForIdAsyncTask extends AsyncTask<String, Void, TreasureHuntCollection>{
-		private Context context;
-		private OnTaskCompletedTH listener;
-		
-		public getTHForIdAsyncTask(Context context, OnTaskCompletedTH listener) {
-			this.context = context;
-			this.listener = listener;
-		}
-		  
-		protected void onPreExecute(){ 
-		   super.onPreExecute(); 
-		}
-
-		protected TreasureHuntCollection doInBackground(String... params) {
-			TreasureHuntCollection response = null;
-		    try {
-		    	Identifierapi.Builder builder = new Identifierapi.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
-				Identifierapi service =  builder.build();
-				
-				response = service.getTreasureHuntsForId(params[0]).execute();
-				
-		    } catch (Exception e) {
-		      Log.d("Could not Add Identifier", e.getMessage(), e);
-		    }
-		    return response;
-		  }
-
-		  protected void onPostExecute(TreasureHuntCollection currentTH) {
-			  super.onPostExecute(currentTH);
-			  listener.onTaskCompleted(currentTH);
-		  }
-	}
-	
-	public interface OnTaskCompletedTH{
-	    TreasureHuntCollection onTaskCompleted(TreasureHuntCollection myTreasureHunts);
 	}
 	
 	private class getTHAsyncTask extends AsyncTask<String, Void, TreasureHunt>{
@@ -225,11 +158,5 @@ public class SeeAllTHActivity extends ActionBarActivity{
 	
 	public interface OnTaskCompleted{
 	    TreasureHunt onTaskCompleted(TreasureHunt myTreasureHunts);
-	}
-	
-	private String getImei() {
-		TelephonyManager mngr = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-		String imei = mngr.getDeviceId();
-		return imei;
 	}
 }

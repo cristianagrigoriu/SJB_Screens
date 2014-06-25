@@ -1490,9 +1490,9 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f070028;
         public static final int action_menu_presenter=0x7f070029;
         public static final int action_mode_close_button=0x7f070036;
-        public static final int action_settings=0x7f07005d;
+        public static final int action_settings=0x7f07005e;
         public static final int activity_chooser_view_content=0x7f070037;
-        public static final int allTHList=0x7f070059;
+        public static final int allTHList=0x7f07005a;
         public static final int always=0x7f07001e;
         public static final int beginning=0x7f070023;
         public static final int book_now=0x7f070010;
@@ -1501,10 +1501,11 @@ containing a value of this type.
         public static final int buy_with_google=0x7f07000e;
         public static final int checkbox=0x7f07003f;
         public static final int classic=0x7f070011;
+        public static final int clueList=0x7f070057;
         public static final int collapseActionView=0x7f070020;
         public static final int contactFriends=0x7f070055;
         public static final int container=0x7f070056;
-        public static final int counter=0x7f070058;
+        public static final int counter=0x7f070059;
         public static final int default_activity_button=0x7f07003a;
         public static final int dialog=0x7f070021;
         public static final int disableHome=0x7f07001b;
@@ -1563,10 +1564,10 @@ containing a value of this type.
         public static final int submit_area=0x7f07004b;
         public static final int tabMode=0x7f070015;
         public static final int terrain=0x7f070003;
-        public static final int thDetails=0x7f07005c;
-        public static final int thImage=0x7f07005a;
-        public static final int thList=0x7f070057;
-        public static final int thName=0x7f07005b;
+        public static final int thDetails=0x7f07005d;
+        public static final int thImage=0x7f07005b;
+        public static final int thList=0x7f070058;
+        public static final int thName=0x7f07005c;
         public static final int title=0x7f07003d;
         public static final int top_action_bar=0x7f070032;
         public static final int up=0x7f070033;
@@ -1629,25 +1630,28 @@ containing a value of this type.
         public static final int activity_main=0x7f030019;
         public static final int activity_play=0x7f03001a;
         public static final int activity_register=0x7f03001b;
-        public static final int activity_see_all_th=0x7f03001c;
-        public static final int activity_view_journey=0x7f03001d;
-        public static final int drawer_list_item=0x7f03001e;
-        public static final int fragment_active_th=0x7f03001f;
-        public static final int fragment_main=0x7f030020;
-        public static final int fragment_play=0x7f030021;
-        public static final int fragment_register=0x7f030022;
-        public static final int fragment_see_all_th=0x7f030023;
-        public static final int fragment_view_journey=0x7f030024;
-        public static final int support_simple_spinner_dropdown_item=0x7f030025;
-        public static final int th_list=0x7f030026;
+        public static final int activity_see_all_clues=0x7f03001c;
+        public static final int activity_see_all_th=0x7f03001d;
+        public static final int activity_view_journey=0x7f03001e;
+        public static final int drawer_list_item=0x7f03001f;
+        public static final int fragment_active_th=0x7f030020;
+        public static final int fragment_main=0x7f030021;
+        public static final int fragment_play=0x7f030022;
+        public static final int fragment_register=0x7f030023;
+        public static final int fragment_see_all_clues=0x7f030024;
+        public static final int fragment_see_all_th=0x7f030025;
+        public static final int fragment_view_journey=0x7f030026;
+        public static final int support_simple_spinner_dropdown_item=0x7f030027;
+        public static final int th_list=0x7f030028;
     }
     public static final class menu {
         public static final int active_th=0x7f0d0000;
         public static final int main=0x7f0d0001;
         public static final int play=0x7f0d0002;
         public static final int register=0x7f0d0003;
-        public static final int see_all_th=0x7f0d0004;
-        public static final int view_journey=0x7f0d0005;
+        public static final int see_all_clues=0x7f0d0004;
+        public static final int see_all_th=0x7f0d0005;
+        public static final int view_journey=0x7f0d0006;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1801,6 +1805,7 @@ containing a value of this type.
         public static final int title_activity_play=0x7f05003c;
         public static final int title_activity_rate_road=0x7f050038;
         public static final int title_activity_register=0x7f050033;
+        public static final int title_activity_see_all_clues=0x7f05003f;
         public static final int title_activity_see_all_th=0x7f05003e;
         public static final int title_activity_view_journey=0x7f05003b;
         public static final int title_activity_your_rated_roads=0x7f050039;

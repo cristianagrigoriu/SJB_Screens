@@ -32,6 +32,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -48,6 +49,21 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
 	private LocationClient mLocationClient;
 	
     private ArrayList<LatLng> markerPoints;
+    
+    private final static int INTERVAL = 1000 * 15; //2 minutes
+    Handler mHandler;
+
+    Runnable mHandlerTask;
+
+    void startRepeatingTask()
+    {
+        mHandlerTask.run(); 
+    }
+
+    void stopRepeatingTask()
+    {
+        mHandler.removeCallbacks(mHandlerTask);
+    }
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +145,17 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
                 }
             });
         }
+        
+        mHandlerTask = new Runnable()
+        {
+             @Override 
+             public void run() {
+                  Toast.makeText(ViewJourneyActivity.this, "DA", Toast.LENGTH_SHORT).show();
+                  //mHandler.postDelayed(mHandlerTask, INTERVAL);
+             }
+        };
+        
+        startRepeatingTask();
 	}
 
 	@Override
@@ -334,6 +361,12 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
         initializeMap();
     }
 
+	@Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopRepeatingTask();
+    }
+	
 	@Override
 	public void onConnectionFailed(ConnectionResult arg0) {
 		// TODO Auto-generated method stub
