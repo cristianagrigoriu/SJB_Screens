@@ -5,6 +5,7 @@
     android:background="@drawable/th_list_selector"
     android:orientation="horizontal"
     android:padding="5dip" >
+    
     <LinearLayout
         android:id="@+id/allTHList"
         android:layout_width="wrap_content"

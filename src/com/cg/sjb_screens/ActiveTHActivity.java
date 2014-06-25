@@ -124,9 +124,10 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 			e.printStackTrace();
 		}
   	
+  		if (getIntent().getExtras() != null) {
+	  		String thId = getIntent().getExtras().getString("thID");
+	  		String[] params2 = {thId};
   		
-  		String thId = getIntent().getExtras().getString("thID");
-  		String[] params2 = {thId};
   		
   		if (thId != null) {
 	  		try {
@@ -140,6 +141,7 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 			} catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
 			}
+  		}
   		}
   		else {
 	  		try {
@@ -531,7 +533,7 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 		
     	/*we offer the first clue for free, only after they have to be in the right place*/
     	if (isCorrectPlace == true || isFirstClue == true) {
-    		if (isCorrectPlace == true)
+    		if (isCorrectPlace == true && instruction != null)
     			isClueFound = true;
     		/*0 means easy*/
 			if (instruction == null) {
@@ -668,7 +670,7 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 	
 	private boolean isCurrentClueFirstClue(Clue currentClue) {
 		if (currentTH != null) {
-			if (!currentTH.getAllClues().isEmpty())
+			if (currentTH.getAllClues() != null)
 				return currentTH.getAllClues().get(0).equals(currentClue);
 		}
 		return false;
@@ -677,7 +679,7 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 	private Clue getNextClueinTH() {
 		int localClueNumber = -1;
 		if (currentTH != null)
-			if (!currentTH.getAllClues().isEmpty())
+			if (currentTH.getAllClues() != null)
 				for (Clue c : currentTH.getAllClues()) {
 					localClueNumber++;
 					if (!c.getIsFoundClue()) {
@@ -690,7 +692,7 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 	
 	private String getNextInstructioninTH(int difficulty) {
 		if (currentTH != null)
-			if (!currentTH.getAllClues().isEmpty()) {
+			if (currentTH.getAllClues() != null) {
 				for (Clue c : currentTH.getAllClues())
 					if (!c.getIsFoundClue())
 						return c.getInstructions().get(difficulty);
@@ -702,7 +704,7 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 	
 	private void setClueFound(Clue clueDone) {
 		if (currentTH != null)
-			if (!currentTH.getAllClues().isEmpty())
+			if (currentTH.getAllClues() != null)
 				for (Clue c : currentTH.getAllClues())
 					if (c.equals(clueDone))
 						c.setIsFoundClue(true);
