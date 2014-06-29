@@ -30,9 +30,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.app.Activity;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -50,21 +52,73 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
 	
     private ArrayList<LatLng> markerPoints;
     
-    private final static int INTERVAL = 1000 * 15; //2 minutes
-    Handler mHandler;
+    StepsHandler stepsHandler = new StepsHandler(new Runnable() {
+        @Override 
+        public void run() {
+        	Location mCurrentLocation = mLocationClient.getLastLocation();
+        	
+        	double currentLatitude = mCurrentLocation.getLatitude();
+        	double currentLongitude = mCurrentLocation.getLongitude();
+        	
+        	Toast.makeText(ViewJourneyActivity.this, currentLatitude + " " + currentLongitude, Toast.LENGTH_SHORT).show();
+        }
+   });
+    
+    public class StepsHandler {
+        // Create a Handler that uses the Main Looper to run in
+        private Handler mHandler = new Handler(Looper.getMainLooper());
 
-    Runnable mHandlerTask;
+        private Runnable mStatusChecker;
+        private int UPDATE_INTERVAL = 2000 * 5; //10 sec
 
-    void startRepeatingTask()
-    {
-        mHandlerTask.run(); 
-    }
+        /**
+         * Creates an UIUpdater object, that can be used to
+         * perform UIUpdates on a specified time interval.
+         * 
+         * @param uiUpdater A runnable containing the update routine.
+         */
+        public StepsHandler(final Runnable stepsHandler) {
+            mStatusChecker = new Runnable() {
+                @Override
+                public void run() {
+                    // Run the passed runnable
+                	stepsHandler.run();
+                    // Re-run it after the update interval
+                    mHandler.postDelayed(this, UPDATE_INTERVAL);
+                }
+            };
+        }
 
-    void stopRepeatingTask()
-    {
-        mHandler.removeCallbacks(mHandlerTask);
-    }
-	
+        /**
+         * The same as the default constructor, but specifying the
+         * intended update interval.
+         * 
+         * @param uiUpdater A runnable containing the update routine.
+         * @param interval  The interval over which the routine
+         *                  should run (milliseconds).
+         */
+        public StepsHandler(Runnable stepsHandler, int interval){
+        	this(stepsHandler);
+        	UPDATE_INTERVAL = interval;
+        }
+
+        /**
+         * Starts the periodical update routine (mStatusChecker 
+         * adds the callback to the handler).
+         */
+        public synchronized void startUpdates(){
+            mStatusChecker.run();
+        }
+
+        /**
+         * Stops the periodical update routine from running,
+         * by removing the callback.
+         */
+        public synchronized void stopUpdates(){
+            mHandler.removeCallbacks(mStatusChecker);
+        }
+}
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -146,16 +200,11 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
             });
         }
         
-        mHandlerTask = new Runnable()
-        {
-             @Override 
-             public void run() {
-                  Toast.makeText(ViewJourneyActivity.this, "DA", Toast.LENGTH_SHORT).show();
-                  //mHandler.postDelayed(mHandlerTask, INTERVAL);
-             }
-        };
         
-        startRepeatingTask();
+        
+        
+        //t.start();
+        //startRepeatingTask();
 	}
 
 	@Override
@@ -355,6 +404,13 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
     }
 	
 	@Override
+    protected void onPause() {
+        super.onPause();
+        /*disconnect the client*/
+        //mLocationClient.disconnect();
+    }
+	
+	@Override
     protected void onResume() {
         super.onResume();
         mLocationClient.connect();
@@ -364,7 +420,9 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
 	@Override
     protected void onDestroy() {
         super.onDestroy();
-        stopRepeatingTask();
+        mLocationClient.disconnect();
+        stepsHandler.stopUpdates();
+        //stopRepeatingTask();
     }
 	
 	@Override
@@ -375,13 +433,13 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
 
 	@Override
 	public void onConnected(Bundle arg0) {
-		// TODO Auto-generated method stub
-		
+		stepsHandler.startUpdates();
 	}
 
 	@Override
 	public void onDisconnected() {
-		Toast.makeText(this, "Disconnected. Please re-connect.", Toast.LENGTH_SHORT).show();	
+		Toast.makeText(this, "Disconnected. Please re-connect.", Toast.LENGTH_SHORT).show();
+		stepsHandler.stopUpdates();
 	}
 
 }

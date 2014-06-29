@@ -341,79 +341,12 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 		return true;
 	}
 	
-	@Override
-    public void onConnected(Bundle dataBundle) {
-        // Display the connection status
-        //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
-		Log.d("Succes", "connected");
-
-    }
 	
-	@Override
-    public void onDisconnected() {
-        // Display the connection status
-        Toast.makeText(this, "Disconnected. Please re-connect.", Toast.LENGTH_SHORT).show();
-    }
-	
-	@Override
-    protected void onStart() {
-        super.onStart();
-        /*connect the client*/
-        mLocationClient.connect();
-        initializeMap();
-        
-        if (currentTH != null)
-  			setTitle(currentTH.getName());
-  		else
-  			setTitle("No Current Treasure Hunt");
-    }
-	
-	@Override
-    protected void onPause() {
-        super.onPause();
-        if (currentTH != null)
-  			setTitle(currentTH.getName());
-  		else
-  			setTitle("No Current Treasure Hunt");
-    }
-	
-	@Override
-    protected void onResume() {
-        super.onResume();
-        mLocationClient.connect();
-        initializeMap();
-        
-        if (currentTH != null)
-  			setTitle(currentTH.getName());
-  		else
-  			setTitle("No Current Treasure Hunt");
-    }
-	
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		super.onWindowFocusChanged(hasFocus);
-		
-		/*load map*/
-		try {
-            initializeMap();
- 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-		
-		/*show current location*/
-		try {
-            setMarkerAtCurrentLocation();
- 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-	}
 	
 	private void initializeMap() {
         if (googleMap == null) {
         	
-         // Get a handle to the Map Fragment
+            /*get a handle to the Map Fragment*/
             googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
             
             /*map type*/
@@ -425,9 +358,9 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
             this.setMarkerAtCurrentLocation();
             
             /*one can see the current location*/
-            //googleMap.setMyLocationEnabled(true);
+            googleMap.setMyLocationEnabled(true);
  
-            // check if map is created successfully or not
+            /*check if map was created successfully or not*/
             if (googleMap == null)
                 Toast.makeText(getApplicationContext(), "Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
         }
@@ -747,9 +680,76 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
 	}
 
 	@Override
+    public void onConnected(Bundle dataBundle) {
+        // Display the connection status
+        //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
+		Log.d("Succes", "connected");
+
+    }
+	
+	@Override
+    public void onDisconnected() {
+        // Display the connection status
+        Toast.makeText(this, "Disconnected. Please re-connect.", Toast.LENGTH_SHORT).show();
+    }
+	
+	@Override
+    protected void onStart() {
+        super.onStart();
+        /*connect the client*/
+        mLocationClient.connect();
+        initializeMap();
+        
+        if (currentTH != null)
+  			setTitle(currentTH.getName());
+  		else
+  			setTitle("No Current Treasure Hunt");
+    }
+	
+	@Override
+    protected void onPause() {
+        super.onPause();
+        if (currentTH != null)
+  			setTitle(currentTH.getName());
+  		else
+  			setTitle("No Current Treasure Hunt");
+    }
+	
+	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 	}
 	
+	@Override
+    protected void onResume() {
+        super.onResume();
+        mLocationClient.connect();
+        initializeMap();
+        
+        if (currentTH != null)
+  			setTitle(currentTH.getName());
+  		else
+  			setTitle("No Current Treasure Hunt");
+    }
 	
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		
+		/*load map*/
+		try {
+            initializeMap();
+ 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		
+		/*show current location*/
+		try {
+            setMarkerAtCurrentLocation();
+ 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+	}	
 }
