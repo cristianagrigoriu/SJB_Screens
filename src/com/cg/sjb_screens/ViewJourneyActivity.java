@@ -1,9 +1,14 @@
 package com.cg.sjb_screens;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,6 +27,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngCreator;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -29,10 +35,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -150,7 +158,7 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
         	googleMap.setMyLocationEnabled(true);
  
             // Setting onclick event listener for the map
-        	googleMap.setOnMapClickListener(new OnMapClickListener() {
+        	/*googleMap.setOnMapClickListener(new OnMapClickListener() {
  
                 @Override
                 public void onMapClick(LatLng point) {
@@ -174,7 +182,7 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
                     * For the start location, the color of marker is GREEN and
                     * for the end location, the color of marker is RED.
                     */
-                    if(markerPoints.size()==1){
+                    /*if(markerPoints.size()==1){
                         options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                     }else if(markerPoints.size()==2){
                         options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
@@ -197,34 +205,10 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
                         downloadTask.execute(url);
                     }
                 }
-            });
+            });*/
         }
+                
         
-        
-        
-        
-        //t.start();
-        //startRepeatingTask();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.view_journey, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	private void initializeMap() {
@@ -241,6 +225,106 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
                 Toast.makeText(getApplicationContext(), "Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
         }
     }
+	
+	private void drawRoad() {
+		String[] originCoord = null;
+        LatLng origin = null;
+        
+        if (getIntent().getExtras() != null) {
+        	originCoord = getIntent().getExtras().getString("originCoord").split(" ");
+        
+        	if (originCoord.length > 1)
+        	{
+		        origin = new LatLng(Double.parseDouble(originCoord[0]), Double.parseDouble(originCoord[1]));
+		        
+		        Location mCurrentLocation = mLocationClient.getLastLocation();
+		    	
+		    	double currentLatitude = mCurrentLocation.getLatitude();
+		    	double currentLongitude = mCurrentLocation.getLongitude();
+		        
+		    	LatLng dest = new LatLng(currentLatitude, currentLongitude);
+		    	
+		        String url = getDirectionsUrl(origin, dest);
+		        
+		        DownloadTask downloadTask = new DownloadTask();
+		
+		        // Start downloading json data from Google Directions API
+		        downloadTask.execute(url);
+        	}
+        	else
+        		Toast.makeText(this, "No clues available", Toast.LENGTH_SHORT).show();
+        }
+        else
+        	Toast.makeText(this, "No road available", Toast.LENGTH_SHORT).show();
+        
+     // image naming and path  to include sd card  appending name you choose for file
+        
+        		//Environment.DIRECTORY_PICTURES.toString() + "/" + "sjb1";
+        		//getInternalStorageDirectory().toString() + "/" + "sjb1";   
+
+        // create bitmap screen capture
+        Bitmap bitmap;
+        View mCurrentUrlMask = getWindow().getDecorView();
+		View v1 = mCurrentUrlMask.getRootView();
+        v1.setDrawingCacheEnabled(true);
+        bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+        v1.setDrawingCacheEnabled(false);
+        
+        //
+        /*ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
+
+        //you can create a new file name "test.jpg" in sdcard folder.
+        File f = new File(Environment.DIRECTORY_PICTURES.toString()
+                                + "/" + "test.jpg");
+        try {
+			f.createNewFile();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        //write the bytes in file
+        FileOutputStream fo = null;
+		try {
+			fo = new FileOutputStream(f);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        try {
+			fo.write(bytes.toByteArray());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+        // remember close de FileOutput
+        try {
+			fo.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}*/
+        //
+        
+        String mPath = Environment.getExternalStorageDirectory().toString() + "/" + "sjb1.jpg";
+        OutputStream fout = null;
+        File imageFile = new File(mPath);
+
+        try {
+            fout = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fout);
+            fout.flush();
+            fout.close();
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+	}
 	
 	private String getDirectionsUrl(LatLng origin,LatLng dest){
 		 
@@ -363,7 +447,6 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
         protected void onPostExecute(List<List<HashMap<String, String>>> result) {
             ArrayList<LatLng> points = null;
             PolylineOptions lineOptions = null;
-            MarkerOptions markerOptions = new MarkerOptions();
  
             // Traversing through all the routes
             for(int i=0;i<result.size();i++){
@@ -433,7 +516,8 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
 
 	@Override
 	public void onConnected(Bundle arg0) {
-		stepsHandler.startUpdates();
+		//stepsHandler.startUpdates();
+		drawRoad();
 	}
 
 	@Override
@@ -442,4 +526,23 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
 		stepsHandler.stopUpdates();
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.view_journey, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 }

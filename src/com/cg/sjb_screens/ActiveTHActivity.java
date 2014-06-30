@@ -253,6 +253,12 @@ public class ActiveTHActivity extends Activity implements GooglePlayServicesClie
         switch (position) {
         case 0:
         	intent = new Intent(this, ViewJourneyActivity.class);
+        	String originCoord = "";
+        	if (this.currentTH != null)
+        		if (this.currentTH.getAllClues() != null)
+        			originCoord = this.currentTH.getAllClues().get(0).getCoordinates().get(0) + " " +
+        					this.currentTH.getAllClues().get(0).getCoordinates().get(1);
+        	intent.putExtra("originCoord", originCoord);
         	startActivity(intent);
             break;
         case 1:
