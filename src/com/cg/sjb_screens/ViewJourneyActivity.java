@@ -49,16 +49,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 import android.os.Build;
 
 public class ViewJourneyActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks,
-															 GooglePlayServicesClient.OnConnectionFailedListener{
+															 GooglePlayServicesClient.OnConnectionFailedListener,
+															 android.view.View.OnClickListener{
 
 	private GoogleMap googleMap;
 	private LocationClient mLocationClient;
 	
     private ArrayList<LatLng> markerPoints;
+    
+    Button postFB;
     
     StepsHandler stepsHandler = new StepsHandler(new Runnable() {
         @Override 
@@ -131,6 +136,9 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_journey);
+		
+		postFB = (Button)findViewById(R.id.postFB);		
+		postFB.setOnClickListener((OnClickListener) this);
 		
 		// Initializing
         markerPoints = new ArrayList<LatLng>();
@@ -211,6 +219,16 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
         
 	}
 
+	@Override
+	  public void onClick(View v) {
+		  switch (v.getId()) {
+	      	case R.id.postFB:
+	      		makeScreenshot();
+	    	default:
+	    		break;
+	     }
+	  }
+	
 	private void initializeMap() {
         if (googleMap == null) {
         	
@@ -255,57 +273,17 @@ public class ViewJourneyActivity extends Activity implements GooglePlayServicesC
         		Toast.makeText(this, "No clues available", Toast.LENGTH_SHORT).show();
         }
         else
-        	Toast.makeText(this, "No road available", Toast.LENGTH_SHORT).show();
-        
-     // image naming and path  to include sd card  appending name you choose for file
-        
-        		//Environment.DIRECTORY_PICTURES.toString() + "/" + "sjb1";
-        		//getInternalStorageDirectory().toString() + "/" + "sjb1";   
-
-        // create bitmap screen capture
+        	Toast.makeText(this, "No road available", Toast.LENGTH_SHORT).show(); 
+	}
+	
+	private void makeScreenshot() {
+		// create bitmap screen capture
         Bitmap bitmap;
         View mCurrentUrlMask = getWindow().getDecorView();
 		View v1 = mCurrentUrlMask.getRootView();
         v1.setDrawingCacheEnabled(true);
         bitmap = Bitmap.createBitmap(v1.getDrawingCache());
         v1.setDrawingCacheEnabled(false);
-        
-        //
-        /*ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-
-        //you can create a new file name "test.jpg" in sdcard folder.
-        File f = new File(Environment.DIRECTORY_PICTURES.toString()
-                                + "/" + "test.jpg");
-        try {
-			f.createNewFile();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        //write the bytes in file
-        FileOutputStream fo = null;
-		try {
-			fo = new FileOutputStream(f);
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        try {
-			fo.write(bytes.toByteArray());
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-        // remember close de FileOutput
-        try {
-			fo.close();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-        //
         
         String mPath = Environment.getExternalStorageDirectory().toString() + "/" + "sjb1.jpg";
         OutputStream fout = null;

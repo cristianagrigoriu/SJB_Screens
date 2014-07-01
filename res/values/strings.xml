@@ -36,5 +36,6 @@
     <string name="start_the_adventure">Start the adventure</string>
     <string name="title_activity_see_all_th">SeeAllTHActivity</string>
     <string name="title_activity_see_all_clues">SeeAllCluesActivity</string>
+    <string name="post_to_facebook">Post To Facebook</string>
 
 </resources>

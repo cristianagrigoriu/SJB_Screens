@@ -1490,9 +1490,9 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f070028;
         public static final int action_menu_presenter=0x7f070029;
         public static final int action_mode_close_button=0x7f070036;
-        public static final int action_settings=0x7f07005e;
+        public static final int action_settings=0x7f07005f;
         public static final int activity_chooser_view_content=0x7f070037;
-        public static final int allTHList=0x7f07005a;
+        public static final int allTHList=0x7f07005b;
         public static final int always=0x7f07001e;
         public static final int beginning=0x7f070023;
         public static final int book_now=0x7f070010;
@@ -1505,7 +1505,7 @@ containing a value of this type.
         public static final int collapseActionView=0x7f070020;
         public static final int contactFriends=0x7f070055;
         public static final int container=0x7f070056;
-        public static final int counter=0x7f070059;
+        public static final int counter=0x7f07005a;
         public static final int default_activity_button=0x7f07003a;
         public static final int dialog=0x7f070021;
         public static final int disableHome=0x7f07001b;
@@ -1536,6 +1536,7 @@ containing a value of this type.
         public static final int none=0x7f070000;
         public static final int normal=0x7f070001;
         public static final int play=0x7f070052;
+        public static final int postFB=0x7f070059;
         public static final int production=0x7f070007;
         public static final int progress_circular=0x7f07002a;
         public static final int progress_horizontal=0x7f07002b;
@@ -1564,10 +1565,10 @@ containing a value of this type.
         public static final int submit_area=0x7f07004b;
         public static final int tabMode=0x7f070015;
         public static final int terrain=0x7f070003;
-        public static final int thDetails=0x7f07005d;
-        public static final int thImage=0x7f07005b;
+        public static final int thDetails=0x7f07005e;
+        public static final int thImage=0x7f07005c;
         public static final int thList=0x7f070058;
-        public static final int thName=0x7f07005c;
+        public static final int thName=0x7f07005d;
         public static final int title=0x7f07003d;
         public static final int top_action_bar=0x7f070032;
         public static final int up=0x7f070033;
@@ -1796,6 +1797,7 @@ containing a value of this type.
          */
         public static final int desc_list_item_icon=0x7f050036;
         public static final int hello_world=0x7f05002e;
+        public static final int post_to_facebook=0x7f050040;
         public static final int see_all_treasure_hunts=0x7f050031;
         public static final int start_the_adventure=0x7f05003d;
         public static final int start_treasure_hunt=0x7f050030;
